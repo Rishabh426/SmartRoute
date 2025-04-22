@@ -13,22 +13,36 @@ export default function TravelForm({ onSubmit }) {
   const [vehicleType, setVehicleType] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
   const [templeVisit, setTempleVisit] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [ticket, setTicket] = useState(null);
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (onSubmit) {
-      onSubmit({
-        from,
-        to,
-        date,
-        time,
-        vehicleType,
-        vehicleNumber,
-        templeVisit
-      });
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const requestData = {
+        source: from,
+        destination: to,
+        date: date,
+        vehicleType: vehicleType,
+        vehicleNumber: vehicleNumber,
+        username: "User", 
+        templeVisit: templeVisit
+      };
+      
+      const response = await axios.post('http://localhost:5000/timeslots', requestData);
+
+      setTicket(response.data.slip);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to generate ticket');
+      console.error('Error submitting form:', err);
+    } finally {
+      setLoading(false);
     }
-    router.push("user/ticket");
   };
 
   return (

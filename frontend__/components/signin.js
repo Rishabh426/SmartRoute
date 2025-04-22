@@ -1,6 +1,8 @@
+"use client"
+
 import SubmitButton from "./submit"
 
-export const SignIn = function() {
+export default function SignIn() {
     return (
         <div className="h-screen flex justify-center flex-col">
             <div className="flex justify-center">
@@ -13,7 +15,7 @@ export const SignIn = function() {
                     </div>
                         <div className="pt-2">
                             <LabelledInput label="Username" placeholder="Enter the name" />
-                            <LabelledInput label="Password" type={"password"} placeholder="Enter the password" />
+                            <LabelledInput label="Password" type="password" placeholder="Enter the password" />
                             <div className="flex justify-center">
                                 <SubmitButton />
                             </div>
@@ -25,7 +27,6 @@ export const SignIn = function() {
         </div>
     )
 }
-
 
 function LabelledInput({ label, placeholder, type }) {
     return <div>
